@@ -193,6 +193,13 @@ abstract class FrameworkExtensionTest extends TestCase
         $this->assertStringEndsWith('TestBundle'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'validation.xml', $xmlArgs[0][1]);
     }
 
+    public function testIpv6Normalizer()
+    {
+        $container = $this->createContainerFromFile('full');
+
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Ipv6\Normalizer', $container->get('ipv6_normalizer'));
+    }
+
     protected function createContainer(array $data = array())
     {
         return new ContainerBuilder(new ParameterBag(array_merge(array(

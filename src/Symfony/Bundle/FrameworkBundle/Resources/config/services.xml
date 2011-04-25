@@ -12,6 +12,7 @@
         <parameter key="cache_warmer.class">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate</parameter>
         <parameter key="cache_warmer.autoloader_map.class">Symfony\Bundle\FrameworkBundle\CacheWarmer\ClassMapCacheWarmer</parameter>
         <parameter key="file_locator.class">Symfony\Component\HttpKernel\Config\FileLocator</parameter>
+        <parameter key="ipv6_normalizer.class">Symfony\Component\HttpFoundation\Ipv6\Normalizer</parameter>
     </parameters>
 
     <services>
@@ -57,5 +58,7 @@
             <argument type="service" id="kernel" />
             <argument>%kernel.root_dir%/Resources</argument>
         </service>
+
+        <service id="ipv6_normalizer" class="%ipv6_normalizer.class%"></service>
     </services>
 </container>
