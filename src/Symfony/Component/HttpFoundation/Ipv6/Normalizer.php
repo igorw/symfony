@@ -14,9 +14,12 @@ namespace Symfony\Component\HttpFoundation\Ipv6;
 /**
  * Normalizer for IPv6 addresses.
  *
+ * Code taken from phpBB 3.0.
+ *
  * @author Igor Wiedler <igor@wiedler.ch>
  * @author Andreas Fischer <bantu@phpbb.com>
  * @author Marek A. Ruszczyński <aptx@phpbb.com>
+ * @author Nils Adermann <naderman@naderman.de>
  */
 class Normalizer
 {

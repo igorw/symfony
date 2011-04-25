@@ -13,6 +13,12 @@ namespace Symfony\Tests\Component\HttpFoundation\Ipv6;
 
 use Symfony\Component\HttpFoundation\Ipv6\Normalizer;
 
+/**
+ * Tests taken from phpBB 3.0.
+ *
+ * @author Andreas Fischer <bantu@phpbb.com>
+ * @author Marek A. Ruszczyński <aptx@phpbb.com>
+ */
 class NormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
