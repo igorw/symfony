@@ -27,7 +27,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
     public function testNormalize($address, $expected)
     {
         $normalizer = new Normalizer();
-        $this->assertEquals($expected, $normalizer->normalize($address));
+        $this->assertSame($expected, $normalizer->normalize($address));
     }
 
     public function normalizeProvider()
@@ -79,7 +79,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
     public function testInetNtop($address, $hex)
     {
         $normalizer = new Normalizer();
-        $this->assertEquals($address, $normalizer->inetNtop(pack('H*', $hex)));
+        $this->assertSame($address, $normalizer->inetNtop(pack('H*', $hex)));
     }
 
     /**
@@ -88,7 +88,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
     public function testInetPton($address, $hex)
     {
         $normalizer = new Normalizer();
-        $this->assertEquals($hex, bin2hex($normalizer->inetPton($address)));
+        $this->assertSame($hex, bin2hex($normalizer->inetPton($address)));
     }
 
     public function inetNtopAndPtonProvider()
