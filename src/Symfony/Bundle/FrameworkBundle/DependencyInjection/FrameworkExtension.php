@@ -65,9 +65,7 @@ class FrameworkExtension extends Extension
             $container->setParameter('kernel.charset', $config['charset']);
         }
 
-        if (isset($config['document_root'])) {
-            $container->setParameter('document_root', $config['document_root']);
-        }
+        $container->setParameter('kernel.secret', $config['secret']);
 
         if (isset($config['error_handler'])) {
             if (false === $config['error_handler']) {
@@ -161,11 +159,11 @@ class FrameworkExtension extends Extension
      */
     private function registerCsrfProtectionConfiguration(array $config, ContainerBuilder $container)
     {
-        $container->getDefinition('form.csrf_provider')->replaceArgument(1, $config['secret']);
-
-        // FIXME: those are not used
-        $container->setParameter('form.csrf_protection.field_name', $config['field_name']);
-        $container->setParameter('form.csrf_protection.enabled', $config['enabled']);
+        $container
+            ->getDefinition('form.type_extension.csrf')
+            ->replaceArgument(0, $config['enabled'])
+            ->replaceArgument(1, $config['field_name'])
+        ;
     }
 
     /**
@@ -249,9 +247,9 @@ class FrameworkExtension extends Extension
         $router->replaceArgument(1, $config['resource']);
 
         if (isset($config['type'])) {
-            $arguments = $router->getArguments();
-            $arguments[2]['resource_type'] = $config['type'];
-            $router->replaceArgument(2, $arguments[2]);
+            $argument = $router->getArgument(2);
+            $argument['resource_type'] = $config['type'];
+            $router->replaceArgument(2, $argument);
         }
 
         if ($config['cache_warmer']) {
@@ -303,9 +301,14 @@ class FrameworkExtension extends Extension
 
         $this->addClassesToCompile(array(
             'Symfony\\Component\\HttpFoundation\\SessionStorage\\SessionStorageInterface',
-            $container->findDefinition('session.storage')->getClass(),
             $container->getDefinition('session')->getClass(),
         ));
+
+        if ($container->hasDefinition($config['storage_id'])) {
+            $this->addClassesToCompile(array(
+                $container->findDefinition('session.storage')->getClass(),
+            ));
+        }
     }
 
     /**

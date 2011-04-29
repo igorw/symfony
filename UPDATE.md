@@ -6,8 +6,63 @@ one. It only discusses changes that need to be done when using the "public"
 API of the framework. If you "hack" the core, you should probably follow the
 timeline closely anyway.
 
+beta1 to beta2
+--------------
+
+* Doctrine event subscribers now use a unique "doctrine.event_subscriber" tag.
+  Doctrine event listeners also use a unique "doctrine.event_listener" tag. To
+  specify a connection, use the optional "connection" attribute.
+
+    Before:
+
+        listener:
+            class: MyEventListener
+            tags:
+                - { name: doctrine.common.event_listener, event: name }
+                - { name: doctrine.dbal.default_event_listener, event: name }
+        subscriber:
+            class: MyEventSubscriber
+            tags:
+                - { name: doctrine.common.event_subscriber }
+                - { name: doctrine.dbal.default_event_subscriber }
+
+    After:
+
+        listener:
+            class: MyEventListener
+            tags:
+                - { name: doctrine.event_listener, event: name }                      # register for all connections
+                - { name: doctrine.event_listener, event: name, connection: default } # only for the default connection
+        subscriber:
+            class: MyEventSubscriber
+            tags:
+                - { name: doctrine.event_subscriber }                      # register for all connections
+                - { name: doctrine.event_subscriber, connection: default } # only for the default connection
+
+* The `doctrine.orm.entity_managers` is now hash of entity manager names/ids pairs:
+
+    Before: array('default', 'foo')
+    After:  array('default' => 'doctrine.orm.default_entity_manager', 'foo' => 'doctrine.orm.foo_entity_manager'))
+
 PR12 to beta1
 -------------
+
+* The CSRF secret configuration has been moved to a mandatory global `secret`
+  setting (as the secret is now used for everything and not just CSRF):
+
+    Before:
+
+        framework:
+            csrf_protection:
+                secret: S3cr3t
+
+    After:
+
+        framework:
+            secret: S3cr3t
+
+* The `File::getWebPath()` and `File::rename()` methods have been removed, as
+  well as the `framework.document_root` configuration setting.
 
 * The `session` configuration has been refactored:
 

@@ -102,6 +102,7 @@ abstract class DoctrineCommand extends Command
     {
         $connectionName = $name ?: $this->container->getParameter('doctrine.dbal.default_connection');
         $connectionName = sprintf('doctrine.dbal.%s_connection', $connectionName);
+
         if (!$this->container->has($connectionName)) {
             throw new \InvalidArgumentException(sprintf('<error>Could not find a connection named <comment>%s</comment></error>', $name));
         }
@@ -110,12 +111,11 @@ abstract class DoctrineCommand extends Command
 
     protected function getDoctrineEntityManagers()
     {
-        $entityManagerNames = $this->container->getParameter('doctrine.orm.entity_managers');
         $entityManagers = array();
-        foreach ($entityManagerNames as $entityManagerName) {
-            $em = $this->container->get(sprintf('doctrine.orm.%s_entity_manager', $entityManagerName));
-            $entityManagers[] = $em;
+        foreach ($this->container->getParameter('doctrine.orm.entity_managers') as $id) {
+            $entityManagers[] = $this->container->get($id);
         }
+
         return $entityManagers;
     }
 
@@ -136,24 +136,6 @@ abstract class DoctrineCommand extends Command
         }
 
         return $bundleMetadatas;
-    }
-
-    protected function findBundle($bundleName)
-    {
-        $foundBundle = false;
-        foreach ($this->getApplication()->getKernel()->getBundles() as $bundle) {
-            /* @var $bundle Bundle */
-            if (strtolower($bundleName) == strtolower($bundle->getName())) {
-                $foundBundle = $bundle;
-                break;
-            }
-        }
-
-        if (!$foundBundle) {
-            throw new \InvalidArgumentException("No bundle " . $bundleName . " was found.");
-        }
-
-        return $foundBundle;
     }
 
     /**

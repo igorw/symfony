@@ -15,7 +15,6 @@ use Symfony\Component\Form\Events;
 use Symfony\Component\Form\Event\DataEvent;
 use Symfony\Component\Form\Event\FilterDataEvent;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -37,7 +36,7 @@ class ResizeFormListener implements EventSubscriberInterface
     private $type;
 
     /**
-     * @var bool
+     * @var Boolean
      */
     private $resizeOnBind;
 
