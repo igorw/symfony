@@ -56,7 +56,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
             // Section 5: Text Representation of Special Addresses
             // We want to show IPv4-mapped addresses as plain IPv4 addresses, though.
             array('::ffff:192.168.0.1',            '192.168.0.1'),
-            array('0000::0000:ffff:c000:0280',    '192.0.2.128'),
+            array('0000::0000:ffff:c000:0280',     '192.0.2.128'),
 
             // IPv6 addresses with the last 32-bit written in dotted-quad notation
             // should be converted to hex-only IPv6 addresses.
@@ -94,15 +94,15 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
     public function inetNtopAndPtonProvider()
     {
         return array(
-            array('127.0.0.1',                        '7f000001'),
+            array('127.0.0.1',                      '7f000001'),
             array('192.232.131.223',                'c0e883df'),
-            array('13.1.68.3',                        '0d014403'),
-            array('129.144.52.38',                    '81903426'),
+            array('13.1.68.3',                      '0d014403'),
+            array('129.144.52.38',                  '81903426'),
 
-            array('2001:280:0:10::5',                '20010280000000100000000000000005'),
-            array('fe80::200:4cff:fefe:172f',        'fe8000000000000002004cfffefe172f'),
+            array('2001:280:0:10::5',               '20010280000000100000000000000005'),
+            array('fe80::200:4cff:fefe:172f',       'fe8000000000000002004cfffefe172f'),
 
-            array('::',                                '00000000000000000000000000000000'),
+            array('::',                             '00000000000000000000000000000000'),
             array('::1',                            '00000000000000000000000000000001'),
             array('1::',                            '00010000000000000000000000000000'),
 
@@ -112,7 +112,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase
             array('1:2:0:4:5:6:7:8',                '00010002000000040005000600070008'),
             array('1:2:3:4:5:6:7:0',                '00010002000300040005000600070000'),
 
-            array('2001:0:0:1::1',                    '20010000000000010000000000000001'),
+            array('2001:0:0:1::1',                  '20010000000000010000000000000001'),
         );
     }
 }
